@@ -1,0 +1,68 @@
+{
+  "name": "backuper",
+  "displayName": "backuper",
+  "description": "A simple file backup extension for VS Code",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.97.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "backuper.backup",
+        "title": "Backup"
+      },
+      {
+        "command": "backuper.restore",
+        "title": "Restore"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "backuper.backup",
+          "when": "resourceLangId",
+          "group": "navigation"
+        },
+        {
+          "command": "backuper.restore",
+          "when": "resourceLangId",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "properties": {
+        "backuper.pattern": {
+          "type": "string",
+          "default": "{name}{ext}.bak",
+          "description": "Pattern for backup filenames. Use {name}, {ext}, and {timestamp} placeholders."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.97.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.22.0",
+    "@typescript-eslint/parser": "^8.22.0",
+    "eslint": "^9.19.0",
+    "typescript": "^5.7.3",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  }
+}
