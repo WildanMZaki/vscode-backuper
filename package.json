@@ -2,7 +2,7 @@
   "name": "backuper",
   "displayName": "backuper",
   "description": "A simple file backup extension for VS Code",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "engines": {
     "vscode": "^1.97.0"
   },
@@ -40,8 +40,13 @@
       "properties": {
         "backuper.pattern": {
           "type": "string",
-          "default": "{name}{ext}.bak",
+          "default": "{name}{ext}{identifier}",
           "description": "Pattern for backup filenames. Use {name}, {ext}, and {timestamp} placeholders."
+        },
+        "backuper.identifier": {
+          "type": "string",
+          "default": ".bak",
+          "description": "Customizable backup file extension, e.g., .bak, .bkp, .bac."
         }
       }
     }

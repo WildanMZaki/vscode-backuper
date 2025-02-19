@@ -5,7 +5,8 @@ import * as path from 'path';
 // Get backup name for files or directories
 export function getBackupName(originalPath: string): string {
     const config = vscode.workspace.getConfiguration('backuper');
-    const pattern = config.get<string>('pattern', '{name}.bak');
+    const pattern = config.get<string>('pattern', '{name}{ext}{identifier}');
+    const identifier = config.get<string>('identifier', '.bak');
     const extname = path.extname(originalPath);
     const basename = path.basename(originalPath, extname);
     const dir = path.dirname(originalPath);
@@ -14,7 +15,8 @@ export function getBackupName(originalPath: string): string {
     const backupName = pattern
         .replace('{name}', basename)
         .replace('{ext}', extname)
-        .replace('{timestamp}', timestamp);
+        .replace('{timestamp}', timestamp)
+        .replace('{identifier}', identifier);
 
     return path.join(dir, backupName);
 }
@@ -55,7 +57,8 @@ export function backupItem(uri: vscode.Uri) {
 // Restore function for files and directories
 export function restoreItem(uri: vscode.Uri) {
     const backupPath = uri.fsPath;
-    const originalPath = backupPath.replace(/\.bak$/, '');
+    const identifier = vscode.workspace.getConfiguration('backuper').get<string>('identifier', '.bak');
+    const originalPath = backupPath.replaceAll(identifier, '');
 
     fs.stat(backupPath, (err, stats) => {
         if (err) {
